@@ -35,49 +35,85 @@ namespace BoundyBotNet
 
             _client.MessageReceived += async (s, e) =>
             {
+                DirectoryInfo dir = new DirectoryInfo("sounds");
                 if (e.Message.Text.Equals("!bhorn"))
-                {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\airhorn_default.wav");
+                {            
+                    await PlayAudioAsync($@"{dir.FullName}\airhorn_default.wav");
                 }
 
                 if (e.Message.Text.Equals("!bfuck"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\fuckoff.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\fuckoff.wav");
                 }
 
                 if (e.Message.Text.Equals("!bhugeb"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\huge-bitch.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\huge-bitch.wav");
                 }
 
                 if (e.Message.Text.Equals("!bff7"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\victory_fanfare.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\victory_fanfare.wav");
                 }
 
                 if (e.Message.Text.Equals("!bcombo"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\combobreaker.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\combobreaker.wav");
                 }
 
                 if (e.Message.Text.Equals("!bprincess"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\Excuse_Me_Princess.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\Excuse_Me_Princess.wav");
                 }
 
                 if (e.Message.Text.Equals("!bhotstep"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\hotstepper.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\hotstepper.wav");
                 }
 
                 if (e.Message.Text.Equals("!bchest"))
                 {                   
-                   await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\zeldaitem.wav");               
+                   await PlayAudioAsync($@"{dir.FullName}\zeldaitem.wav");               
                 }
 
                 if (e.Message.Text.Equals("!bburn"))
                 {
-                    await PlayAudioAsync(@"D:\Source\Repos\BoundyBotNet\BoundyBotNet\sounds\burned.wav");
+                    await PlayAudioAsync($@"{dir.FullName}\burned.wav");
+                }
+
+                if (e.Message.Text.Equals("!bdrama"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\drama.wav");
+                }
+
+                if (e.Message.Text.Equals("!bfatal"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\fatality.wav");
+                }
+
+                if (e.Message.Text.Equals("!bfdp"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\fdp.wav");
+                }
+
+                if (e.Message.Text.Equals("!bmgs"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\metalgearsolid.wav");
+                }
+
+                if (e.Message.Text.Equals("!bsparta"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\thisissparta.wav");
+                }
+
+                if (e.Message.Text.Equals("!bwolo"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\wololo.wav");
+                }
+
+                if (e.Message.Text.Equals("!bsecret"))
+                {
+                    await PlayAudioAsync($@"{dir.FullName}\zeldasecret.wav");
                 }
             };
 
