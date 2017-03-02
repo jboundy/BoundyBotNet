@@ -85,7 +85,10 @@ namespace BoundyBotNet.helpers
                 "!bstfu - Just stfu",
                 "!bsurprise - Surprise mothafucker",
                 "!btada - Tada.....",
-                "!bholyfuck - Really makes me giggle"
+                "!bholyfuck - Really makes me giggle",
+                "!billidan - Feel the hatred",
+                "!bgay - Ha....",
+                "!bwooo - RageOrc Wooooo"
             };  
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Text;
 using BoundyBotNet.helpers;
 using Discord;
 using Discord.Audio;
+using Microsoft.Azure.WebJobs;
 
 namespace BoundyBotNet
 {
@@ -11,9 +13,17 @@ namespace BoundyBotNet
     {
         static void Main(string[] args)
         {
-            new Program().Start();        
-        } 
+            //Configure JobHost
+            var storageConnectionString = ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ToString();
+            var config = new JobHostConfiguration(storageConnectionString);
 
+            //Pass configuration to JobJost
+            var host = new JobHost(config);
+            new Program().Start();
+            host.RunAndBlock();              
+        }
+
+        [NoAutomaticTrigger]
         public void Start()
         {
             var botHelper = new BotHelpers();
@@ -34,145 +44,89 @@ namespace BoundyBotNet
             {
                 DirectoryInfo dir = new DirectoryInfo("sounds");
 
+                var soundFile = FetchSoundFile(e.Message.Text);
+                if (!string.IsNullOrEmpty(soundFile))
+                {
+                    await botHelper.PlayAudioAsync($@"{dir.FullName}\{soundFile}");
+                }
+
                 if (e.Message.Text.Equals("!breadme"))
                 {
                     await e.Message.Channel.SendMessage(commandList);               
-                }
-
-                if (e.Message.Text.Equals("!bhorn"))
-                {            
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\airhorn_default.wav");
-                }
-
-                if (e.Message.Text.Equals("!bfuck"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\fuckoff.wav");
-                }
-
-                if (e.Message.Text.Equals("!bhugeb"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\huge-bitch.wav");
-                }
-
-                if (e.Message.Text.Equals("!bff7"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\victory_fanfare.wav");
-                }
-
-                if (e.Message.Text.Equals("!bcombo"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\combobreaker.wav");
-                }
-
-                if (e.Message.Text.Equals("!bprincess"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\Excuse_Me_Princess.wav");
-                }
-
-                if (e.Message.Text.Equals("!bhotstep"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\hotstepper.wav");
-                }
-
-                if (e.Message.Text.Equals("!bchest"))
-                {                   
-                   await botHelper.PlayAudioAsync($@"{dir.FullName}\zeldaitem.wav");               
-                }
-
-                if (e.Message.Text.Equals("!bburn"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\burned.wav");
-                }
-
-                if (e.Message.Text.Equals("!bdrama"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\drama.wav");
-                }
-
-                if (e.Message.Text.Equals("!bfatal"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\fatality.wav");
-                }
-
-                if (e.Message.Text.Equals("!bfdp"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\fdp.wav");
-                }
-
-                if (e.Message.Text.Equals("!bmgs"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\metalgearsolid.wav");
-                }
-
-                if (e.Message.Text.Equals("!bsparta"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\thisissparta.wav");
-                }
-
-                if (e.Message.Text.Equals("!bwolo"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\wololo.wav");
-                }
-
-                if (e.Message.Text.Equals("!bsecret"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\zeldasecret.wav");
-                }
-
-                if (e.Message.Text.Equals("!bpardon"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\beg-your-pardon-sir.wav");
-                }
-
-                if (e.Message.Text.Equals("!bwhip"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\crack_the_whip.wav");
-                }
-
-                if (e.Message.Text.Equals("!bnuts"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\deez-nuts.wav");
-                }
-
-                if (e.Message.Text.Equals("!bnope"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\nope.wav");
-                }
-
-                if (e.Message.Text.Equals("!bomg"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\omg-who-the-hell-cares_2.wav");
-                }
-
-                if (e.Message.Text.Equals("!bobjection"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\phoenix-objection.wav");
-                }
-
-                if (e.Message.Text.Equals("!bstfu"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\shut-the-fuck-up.wav");
-                }
-
-                if (e.Message.Text.Equals("!bsurprise"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\surprise-motherfucker.wav");
-                }
-
-                if (e.Message.Text.Equals("!btada"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\tada.wav");
-                }
-
-                if (e.Message.Text.Equals("!bholyfuck"))
-                {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\yang-holy-fuck.wav");
                 }
             };
 
            _client.ExecuteAndWait(async () => {
                 await _client.Connect("MjQ5NzkzMjMyNTM4NDM1NTg1.CxLdsg.QzojNKXFJOnPwez_ByUEkKEg4I8", TokenType.Bot);
             });
+
+        }
+
+        private string FetchSoundFile(string commandText)
+        {
+            switch (commandText)
+            {
+                case "!bhorn":
+                    return "airhorn_default.wav";
+                case "!bfuck":
+                    return "fuckoff.wav";
+                case "!bhugeb":
+                    return "huge-bitch.wav";
+                case "!bff7":
+                    return "victory_fanfare.wav";
+                case "!bcombo":
+                    return "combobreaker.wav";
+                case "!bprincess":
+                    return "Excuse_Me_Princess.wav";
+                case "!bhotstep":
+                    return "hotstepper.wav";
+                case "!bchest":
+                    return "zeldaitem.wav";
+                case "!bburn":
+                    return "burned.wav";
+                case "!bdrama":
+                    return "drama.wav";
+                case "!bfatal":
+                    return "fatality.wav";
+                case "!bfdp":
+                    return "fdp.wav";
+                case "!bmgs":
+                    return "metalgearsolid.wav";
+                case "!bsparta":
+                    return "thisissparta.wav";
+                case "!bwolo":
+                    return "wololo.wav";
+                case "!bsecret":
+                    return "zeldasecret.wav";
+                case "!bpardon":
+                    return "beg-your-pardon-sir.wav";
+                case "!bwhip":
+                    return "crack_the_whip.wav";
+                case "!bnuts":
+                    return "deez-nuts.wav";
+                case "!bnope":
+                    return "nope.wav";
+                case "!bomg":
+                    return "omg-who-the-hell-cares_2.wav";
+                case "!bobjection":
+                    return "phoenix-objection.wav";
+                case "!bstfu":
+                    return "shut-the-fuck-up.wav";
+                case "!bsurprise":
+                    return "surprise-motherfucker.wav";
+                case "!btada":
+                    return "tada.wav";
+                case "!bholyfuck":
+                    return "yang-holy-fuck.wav";
+                case "!billidan":
+                    return "illidan-10000.wav";
+                case "!bgay":
+                    return "hah-gay.wav";
+                case "!bwooo":
+                    return "woooooooooooo.wav";
+                default:;
+                    return "";
+            }
         }
     }
 }
