@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using BoundyBotNet.helpers;
 using Discord;
 using Discord.Audio;
@@ -9,7 +10,7 @@ using Microsoft.Azure.WebJobs;
 
 namespace BoundyBotNet
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -17,14 +18,13 @@ namespace BoundyBotNet
             var storageConnectionString = ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ToString();
             var config = new JobHostConfiguration(storageConnectionString);
 
-            //Pass configuration to JobJost
             var host = new JobHost(config);
-            new Program().Start();
+            host.Call(typeof(Program).GetMethod("Start"));
             host.RunAndBlock();              
         }
 
         [NoAutomaticTrigger]
-        public void Start()
+        public static void Start()
         {
             var botHelper = new BotHelpers();
             var builder = new StringBuilder();
@@ -62,7 +62,7 @@ namespace BoundyBotNet
 
         }
 
-        private string FetchSoundFile(string commandText)
+        private static string FetchSoundFile(string commandText)
         {
             switch (commandText)
             {
