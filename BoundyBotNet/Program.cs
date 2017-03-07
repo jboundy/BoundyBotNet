@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BoundyBotNet.helpers;
@@ -27,12 +29,8 @@ namespace BoundyBotNet
         public static void Start()
         {
             var botHelper = new BotHelpers();
-            var builder = new StringBuilder();
-            foreach (var item in botHelper.CommandList())
-            {
-                builder.Append(item).Append(Environment.NewLine);
-            }
-            var commandList = builder.ToString();
+            var commandDictionary = botHelper.BuildSoundFiles();
+            var commandList = botHelper.BuildCommandList();
             var _client = botHelper.Client;
 
             _client.UsingAudio(x => 
@@ -42,12 +40,11 @@ namespace BoundyBotNet
 
             _client.MessageReceived += async (s, e) =>
             {
-                DirectoryInfo dir = new DirectoryInfo("sounds");
+                var soundFile = FetchSoundFile(e.Message.Text, commandDictionary);
 
-                var soundFile = FetchSoundFile(e.Message.Text);
                 if (!string.IsNullOrEmpty(soundFile))
                 {
-                    await botHelper.PlayAudioAsync($@"{dir.FullName}\{soundFile}");
+                    await botHelper.ProcessAudioAsync(e.Message.Text, soundFile, e.User.VoiceChannel);
                 }
 
                 if (e.Message.Text.Equals("!breadme"))
@@ -56,77 +53,40 @@ namespace BoundyBotNet
                 }
             };
 
+            //_client.UserUpdated += async (s, e) =>
+            //{
+            //    //this one needs some work...essentially tracking where users are and what channel they are a part of
+                  //may consider setting that up as the app starts
+            //    var soundFile = GetIntro(e.Server);
+
+            //    if (!string.IsNullOrEmpty(soundFile))
+            //    {
+            //        await ProcessAudioAsync(soundFile, botHelper, e.Server.CurrentUser.VoiceChannel);
+            //    }
+            //};
+
            _client.ExecuteAndWait(async () => {
                 await _client.Connect("MjQ5NzkzMjMyNTM4NDM1NTg1.CxLdsg.QzojNKXFJOnPwez_ByUEkKEg4I8", TokenType.Bot);
-            });
+           });
 
         }
 
-        private static string FetchSoundFile(string commandText)
+        private static string FetchSoundFile(string commandText, Dictionary<string, string> soundDict)
         {
-            switch (commandText)
+            if (soundDict.ContainsKey(commandText))
             {
-                case "!bhorn":
-                    return "airhorn_default.wav";
-                case "!bfuck":
-                    return "fuckoff.wav";
-                case "!bhugeb":
-                    return "huge-bitch.wav";
-                case "!bff7":
-                    return "victory_fanfare.wav";
-                case "!bcombo":
-                    return "combobreaker.wav";
-                case "!bprincess":
-                    return "Excuse_Me_Princess.wav";
-                case "!bhotstep":
-                    return "hotstepper.wav";
-                case "!bchest":
-                    return "zeldaitem.wav";
-                case "!bburn":
-                    return "burned.wav";
-                case "!bdrama":
-                    return "drama.wav";
-                case "!bfatal":
-                    return "fatality.wav";
-                case "!bfdp":
-                    return "fdp.wav";
-                case "!bmgs":
-                    return "metalgearsolid.wav";
-                case "!bsparta":
-                    return "thisissparta.wav";
-                case "!bwolo":
-                    return "wololo.wav";
-                case "!bsecret":
-                    return "zeldasecret.wav";
-                case "!bpardon":
-                    return "beg-your-pardon-sir.wav";
-                case "!bwhip":
-                    return "crack_the_whip.wav";
-                case "!bnuts":
-                    return "deez-nuts.wav";
-                case "!bnope":
-                    return "nope.wav";
-                case "!bomg":
-                    return "omg-who-the-hell-cares_2.wav";
-                case "!bobjection":
-                    return "phoenix-objection.wav";
-                case "!bstfu":
-                    return "shut-the-fuck-up.wav";
-                case "!bsurprise":
-                    return "surprise-motherfucker.wav";
-                case "!btada":
-                    return "tada.wav";
-                case "!bholyfuck":
-                    return "yang-holy-fuck.wav";
-                case "!billidan":
-                    return "illidan-10000.wav";
-                case "!bgay":
-                    return "hah-gay.wav";
-                case "!bwooo":
-                    return "woooooooooooo.wav";
-                default:;
-                    return "";
+                return soundDict[commandText];
             }
+
+            return "";
         }
+
+        //private static string FetchIntroSound(string userId)
+        //{
+        //    switch (userId)
+        //    {
+
+        //    }
+        //}
     }
 }

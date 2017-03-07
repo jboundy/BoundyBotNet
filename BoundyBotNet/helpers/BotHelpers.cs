@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Audio;
@@ -17,16 +19,21 @@ namespace BoundyBotNet.helpers
             Client = new DiscordClient();
         }
 
-        private async Task<IAudioClient> JoinVoiceChannelAsync(ulong channelId)
+        private async Task<IAudioClient> JoinVoiceChannelAsync(Channel channel)
         {
-            var voiceChannel = Client.FindServers("Jon's Cave of Fun").FirstOrDefault()
-                .VoiceChannels.FirstOrDefault(x => x.Id == channelId);
-            return await Client.GetService<AudioService>().Join(voiceChannel);
+            try
+            {
+                return await Client.GetService<AudioService>().Join(channel);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }                
         }
 
-        public async Task PlayAudioAsync(string filePath)
+        public async Task PlayAudioAsync(string filePath, Channel channel)
         {
-            var _vClient = await JoinVoiceChannelAsync(202186271999787009);
+            var _vClient = await JoinVoiceChannelAsync(channel);
             var channelCount = Client.GetService<AudioService>().Config.Channels;
             var outFormat = new WaveFormat(48000, 16, 2);
             var length = Convert.ToInt32(outFormat.AverageBytesPerSecond / 60.0 * 1000.0);
@@ -57,38 +64,64 @@ namespace BoundyBotNet.helpers
             await _vClient.Disconnect();
         }
 
-        public IEnumerable<string> CommandList() =>
-            new List<string>
+        public async Task ProcessAudioAsync(string folderPath, string soundFile, Channel channel)
+        {
+            DirectoryInfo dir = new DirectoryInfo("sounds");
+            await PlayAudioAsync($@"{dir.FullName}\{folderPath}\{soundFile}", channel);
+        }
+
+        public Dictionary<string, string> BuildSoundFiles()
+        {
+            var dict = new Dictionary<string, string>();
+            var directories = Directory.GetDirectories("sounds");
+            foreach (var directory in directories)
             {
-                "!bhorn - Mighty horn",
-                "!bfuck - Angry",
-                "!bhugeb - Big Huge Bitch",
-                "!bff7 -Final Fantasy victory",
-                "!bcombo - CCCCombo breaker",
-                "!bprincess - Well princess....",
-                "!bhotstep - Alex might like this",
-                "!bchest - Zelda chest opening",
-                "!bburn - Git burnt",
-                "!bdrama - Dramatic beaver",
-                "!bfatal - MK Fatality",
-                "!bfdp - Some funny spanish",
-                "!bmgs - Metal Gear Solid alert",
-                "!bsparta - This...is...SPARTA!!!",
-                "!bwolo - Wololololollo",
-                "!bsecret - Zelda Secret",
-                "!bpardon - Pardon me...",
-                "!bwhip - Its a whip",
-                "!bnuts - Deez nuts",
-                "!bnope - Nope.avi",
-                "!bomg - Family guy reference",
-                "!bobjection - Objection!",
-                "!bstfu - Just stfu",
-                "!bsurprise - Surprise mothafucker",
-                "!btada - Tada.....",
-                "!bholyfuck - Really makes me giggle",
-                "!billidan - Feel the hatred",
-                "!bgay - Ha....",
-                "!bwooo - RageOrc Wooooo"
-            };  
+                var files = Directory.GetFiles(directory);
+                var file = files.FirstOrDefault();
+
+                var newDirectory = directory.Split('\\');
+                var newFile = file.Split('\\');
+
+                dict.Add(newDirectory.Last(), newFile.Last());
+            }
+
+            return dict;
+        }
+
+        public string BuildCommandList()
+        {
+            var builder = new StringBuilder();
+            foreach (var item in CommandList())
+            {
+                builder.Append(item).Append(Environment.NewLine);
+            }
+
+            return builder.ToString();
+        }
+
+        public IEnumerable<string> CommandList()
+        {
+            var list = new List<string>();
+            DirectoryInfo dir = new DirectoryInfo("sounds");
+            var directories = Directory.GetDirectories("sounds");
+            foreach (var directory in directories)
+            {
+                var files = Directory.GetFiles(directory);
+                var file = files.LastOrDefault();
+
+                var newDirectory = directory.Split('\\');
+                var newFile = file.Split('\\');
+                var readFile = File.ReadAllText($@"{dir.FullName}\{newDirectory.Last()}\{newFile.Last()}");
+
+                list.Add($"{newDirectory.Last()} - {readFile}");
+            }
+
+            return list;
+        }
+
+        private void GetServerChannels()
+        {
+            
+        }
     }
 }
