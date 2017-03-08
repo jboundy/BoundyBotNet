@@ -64,16 +64,20 @@ namespace BoundyBotNet.helpers
             await _vClient.Disconnect();
         }
 
-        public async Task ProcessAudioAsync(string folderPath, string soundFile, Channel channel)
+        public async Task ProcessAudioAsync(string directoryPath, string folderPath, string soundFile, Channel channel)
         {
-            DirectoryInfo dir = new DirectoryInfo("sounds");
+            DirectoryInfo dir = new DirectoryInfo(directoryPath);
             await PlayAudioAsync($@"{dir.FullName}\{folderPath}\{soundFile}", channel);
         }
 
-        public Dictionary<string, string> BuildSoundFiles()
+        public Dictionary<string, string> BuildSoundIntros() => BuildSoundFileDictionary("intros");
+
+        public Dictionary<string, string> BuildSoundFiles() => BuildSoundFileDictionary("sounds");
+
+        private Dictionary<string, string> BuildSoundFileDictionary(string folder)
         {
             var dict = new Dictionary<string, string>();
-            var directories = Directory.GetDirectories("sounds");
+            var directories = Directory.GetDirectories(folder);
             foreach (var directory in directories)
             {
                 var files = Directory.GetFiles(directory);
@@ -117,11 +121,6 @@ namespace BoundyBotNet.helpers
             }
 
             return list;
-        }
-
-        private void GetServerChannels()
-        {
-            
         }
     }
 }
