@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using BoundyBotNet.helpers;
 using BoundyBotNetCore.Application;
 using Discord;
