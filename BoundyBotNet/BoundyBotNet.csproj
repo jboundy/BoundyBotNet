@@ -132,7 +132,9 @@
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="intros\BoundyHunter\carnage-bang-mp3cut.wav" />
+    <Content Include="intros\BoundyHunter\01-hotline-bling-34.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="sounds\!bburn\_d.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -196,6 +198,10 @@
     <Content Include="sounds\!bhotstep\_d.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sounds\!bhowdy\howdy-ho.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sounds\!bhowdy\_d.txt" />
     <Content Include="sounds\!bhugeb\_d.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -307,7 +313,7 @@
     <Content Include="sounds\!bprincess\Excuse_Me_Princess.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="sounds\!bfagsean\fagetsean.wav">
+    <Content Include="intros\Gnomeknuckle\fagetsean.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="sounds\!bfatal\fatality.wav">

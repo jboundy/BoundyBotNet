@@ -70,9 +70,15 @@ namespace BoundyBotNet.helpers
             await PlayAudioAsync($@"{dir.FullName}\{folderPath}\{soundFile}", channel);
         }
 
-        public Dictionary<string, string> BuildSoundIntros() => BuildSoundFileDictionary("intros");
+        public Dictionary<string, string> BuildSoundIntros()
+        {
+            return BuildSoundFileDictionary("intros");
+        }
 
-        public Dictionary<string, string> BuildSoundFiles() => BuildSoundFileDictionary("sounds");
+        public Dictionary<string, string> BuildSoundFiles()
+        {
+            return BuildSoundFileDictionary("sounds");
+        }
 
         private Dictionary<string, string> BuildSoundFileDictionary(string folder)
         {

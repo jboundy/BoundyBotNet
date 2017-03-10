@@ -50,16 +50,16 @@ namespace BoundyBotNet
                     await e.Message.Channel.SendMessage(commandList);               
                 }
             };
-        
-            _client.UserUpdated += async (s, e) =>
-            {
-                var soundFile = FetchSoundFile(e.After.Name, introDictionary);
 
-                if (!string.IsNullOrEmpty(soundFile))
-                {
-                    await botHelper.ProcessAudioAsync("intros", e.After.Name, soundFile, e.After.VoiceChannel);
-                }
-            };
+            //_client.UserUpdated += async (s, e) =>
+            //{
+            //    var soundFile = FetchSoundFile(e.After.Name, introDictionary);
+
+            //    if (!string.IsNullOrEmpty(soundFile))
+            //    {
+            //        await botHelper.ProcessAudioAsync("intros", e.After.Name, soundFile, e.After.VoiceChannel);
+            //    }
+            //};
 
             _client.ExecuteAndWait(async () => {
                 await _client.Connect(Settings.DiscordConfig.AppToken, TokenType.Bot);
