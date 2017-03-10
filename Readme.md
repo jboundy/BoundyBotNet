@@ -1,29 +1,15 @@
-## Welcome to MarkdownPad 2 ##
+## BoundyBot Documentation ##
 
-**MarkdownPad** is a full-featured Markdown editor for Windows.
+### Install Bot in your Discord ###
 
-### Built exclusively for Markdown ###
+If you would like to install the bot in your discord server, you can use the link below
 
-Enjoy first-class Markdown support with easy access to  Markdown syntax and convenient keyboard shortcuts.
+https://discordapp.com/oauth2/authorize?client_id=249793232538435585&scope=bot&permissions=0
 
-Give them a try:
+### How to use the Bot ###
 
-- **Bold** (`Ctrl+B`) and *Italic* (`Ctrl+I`)
-- Quotes (`Ctrl+Q`)
-- Code blocks (`Ctrl+K`)
-- Headings 1, 2, 3 (`Ctrl+1`, `Ctrl+2`, `Ctrl+3`)
-- Lists (`Ctrl+U` and `Ctrl+Shift+O`)
+A list of sounds have been pre-loaded. You can find them all by entering the !breadme command.
 
-### See your changes instantly with LivePreview ###
+### Deploy your own Bot ###
 
-Don't guess if your [hyperlink syntax](http://markdownpad.com) is correct; LivePreview will show you exactly what your document looks like every time you press a key.
-
-### Make it your own ###
-
-Fonts, color schemes, layouts and stylesheets are all 100% customizable so you can turn MarkdownPad into your perfect editor.
-
-### A robust editor for advanced Markdown users ###
-
-MarkdownPad supports multiple Markdown processing engines, including standard Markdown, Markdown Extra (with Table support) and GitHub Flavored Markdown.
-
-With a tabbed document interface, PDF export, a built-in image uploader, session management, spell check, auto-save, syntax highlighting and a built-in CSS management interface, there's no limit to what you can do with MarkdownPad.
+The bot is designed as a webjob in Microsoft Azure. To have the app run in Azure, change provide your connection strings to the designated areas in the App.config file in the console app. You can also run the solution on your local machine as well
