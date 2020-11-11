@@ -57,9 +57,6 @@
     <Reference Include="Discord.Net.Commands, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Discord.Net.Commands.0.9.6\lib\net45\Discord.Net.Commands.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Modules, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Discord.Net.Modules.0.9.6\lib\net45\Discord.Net.Modules.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -360,12 +357,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BoundyBotNetCore\BoundyBotNet.Core.csproj">
-      <Project>{78d4d27a-5e76-4045-a203-71ea63ed9416}</Project>
-      <Name>BoundyBotNet.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="intros\" />

@@ -34,7 +34,6 @@ namespace BoundyBotNet.helpers
         public async Task PlayAudioAsync(string filePath, Channel channel)
         {
             var _vClient = await JoinVoiceChannelAsync(channel);
-            var channelCount = Client.GetService<AudioService>().Config.Channels;
             var outFormat = new WaveFormat(48000, 16, 2);
             var length = Convert.ToInt32(outFormat.AverageBytesPerSecond / 60.0 * 1000.0);
             byte[] buffer = new byte[length];
