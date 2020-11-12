@@ -1,4 +1,5 @@
 ﻿using DSharpPlus;
+using DSharpPlus.VoiceNext;
 using System;
 using System.Threading.Tasks;
 
@@ -19,9 +20,11 @@ namespace BoundyBot.Bot
                 TokenType = TokenType.Bot
             });
 
+            _client.UseVoiceNext();
+
             _client.MessageCreated += async e =>
             {
-                
+
             };
 
             await _client.ConnectAsync();
