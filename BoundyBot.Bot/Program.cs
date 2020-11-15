@@ -16,7 +16,7 @@ namespace BoundyBot.Bot
         {
             _client = new DiscordClient(new DiscordConfiguration
             {
-                Token = "<paste the token here>",
+                Token = Config.Token,
                 TokenType = TokenType.Bot
             });
 

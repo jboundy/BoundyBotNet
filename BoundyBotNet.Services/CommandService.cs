@@ -6,6 +6,14 @@ namespace BoundyBotNet.Services
 {
     public class CommandService
     {
+        public CommandService()
+        {
 
+        }
+
+        public void BuildCommandList()
+        {
+
+        }
     }
 }
