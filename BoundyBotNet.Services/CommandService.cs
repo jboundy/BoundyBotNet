@@ -11,9 +11,13 @@ namespace BoundyBotNet.Services
 
         }
 
-        public void BuildCommandList()
+        public Dictionary<string, string> BuildCommandList()
         {
+            var commandList = new Dictionary<string, string>();
 
+            return commandList;
         }
+
+
     }
 }

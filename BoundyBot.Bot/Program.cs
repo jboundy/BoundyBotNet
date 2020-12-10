@@ -1,4 +1,5 @@
-﻿using DSharpPlus;
+﻿using BoundyBotNet.Services;
+using DSharpPlus;
 using DSharpPlus.VoiceNext;
 using System;
 using System.Threading.Tasks;
@@ -20,11 +21,20 @@ namespace BoundyBot.Bot
                 TokenType = TokenType.Bot
             });
 
-            _client.UseVoiceNext();
+            var commandList = new CommandService().BuildCommandList();
+            var audioService = new AudioService();
+            var channelService = new ChannelService(_client);
 
+            _client.UseVoiceNext();
+            
             _client.MessageCreated += async e =>
             {
-
+                if (commandList.ContainsKey(e.Message.Content))
+                {
+                    var vnc = await channelService.JoinChannel(e.Channel.Id);
+                    await audioService.PlayAudio(vnc, commandList[e.Message.Content]);
+                    await channelService.LeaveChannel(e.Channel.Id);
+                }
             };
 
             await _client.ConnectAsync();

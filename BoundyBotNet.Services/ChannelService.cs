@@ -14,11 +14,11 @@ namespace BoundyBotNet.Services
             _client = client;
         }
 
-        public async Task JoinChannel(ulong channelId)
+        public async Task<VoiceNextConnection> JoinChannel(ulong channelId)
         {
             var channelData = await _client.GetChannelAsync(channelId);
             var vnext = await GetVoiceClient();
-            await vnext.ConnectAsync(channelData);
+            return await vnext.ConnectAsync(channelData);
         }
 
         public async Task LeaveChannel(ulong channelId)
