@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoundyBotNet.Services", "Bo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoundyBot.Bot", "BoundyBot.Bot\BoundyBot.Bot.csproj", "{FC7CF039-A3FB-4409-9C98-94837CA9BD65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundyBotNet.Tests", "BoundyBotNet.Tests\BoundyBotNet.Tests.csproj", "{78DA40D5-9D5B-451F-AD9E-C767FF8E5AC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FC7CF039-A3FB-4409-9C98-94837CA9BD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC7CF039-A3FB-4409-9C98-94837CA9BD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC7CF039-A3FB-4409-9C98-94837CA9BD65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DA40D5-9D5B-451F-AD9E-C767FF8E5AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DA40D5-9D5B-451F-AD9E-C767FF8E5AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DA40D5-9D5B-451F-AD9E-C767FF8E5AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DA40D5-9D5B-451F-AD9E-C767FF8E5AC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

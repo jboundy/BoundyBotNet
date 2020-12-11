@@ -11,9 +11,11 @@ namespace BoundyBotNet.Services
 {
     public class AudioService
     {
+        private FileService _fileService;
+
         public AudioService()
         {
-
+            _fileService = new FileService();
         }
 
         private async Task<Stream> GenerateSoundStream(Stream inputStream)
@@ -33,9 +35,15 @@ namespace BoundyBotNet.Services
             return returnStream;
         }
 
-        public async Task PlayAudio(VoiceNextConnection vnc, [RemainingText] string file)
+        public async Task PlayAudio(VoiceNextConnection vnc, string url)
         {
-            using (var readingStream = File.OpenRead(file))
+            var stream = await _fileService.GetYoutubeData(url);
+            await PlayAudio(vnc, stream);
+        }
+
+        public async Task PlayAudio(VoiceNextConnection vnc, Stream stream)
+        {
+            using (var readingStream = Stream.Synchronized(stream))
             {
                 var ffout = await GenerateSoundStream(readingStream);
 

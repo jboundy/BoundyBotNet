@@ -2,6 +2,7 @@
 using DSharpPlus;
 using DSharpPlus.VoiceNext;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BoundyBot.Bot
@@ -33,6 +34,16 @@ namespace BoundyBot.Bot
                 {
                     var vnc = await channelService.JoinChannel(e.Channel.Id);
                     await audioService.PlayAudio(vnc, commandList[e.Message.Content]);
+                    await channelService.LeaveChannel(e.Channel.Id);
+                }
+
+                if (e.Message.Content.Contains("!btubeaudio"))
+                {
+                    var url = e.Message.Content.Split(' ')
+                            .ToList()
+                            .SingleOrDefault(x => x.Contains("http"));
+                    var vnc = await channelService.JoinChannel(e.Channel.Id);
+                    await audioService.PlayAudio(vnc, url);
                     await channelService.LeaveChannel(e.Channel.Id);
                 }
             };
