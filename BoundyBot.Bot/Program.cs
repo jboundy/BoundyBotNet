@@ -21,18 +21,17 @@ namespace BoundyBot.Bot
                 Token = Config.Token,
                 TokenType = TokenType.Bot
             });
+            _client.UseVoiceNext();
 
             var commandList = new CommandService().BuildCommandList();
             var audioService = new AudioService();
             var channelService = new ChannelService(_client);
 
-            _client.UseVoiceNext();
-            
             _client.MessageCreated += async e =>
             {
                 if (commandList.ContainsKey(e.Message.Content))
-                {
-                    var vnc = await channelService.JoinChannel(e.Channel.Id);
+                { 
+                    var vnc = await channelService.JoinChannel(247175209767927810);
                     await audioService.PlayAudio(vnc, commandList[e.Message.Content]);
                     await channelService.LeaveChannel(e.Channel.Id);
                 }
@@ -42,7 +41,7 @@ namespace BoundyBot.Bot
                     var url = e.Message.Content.Split(' ')
                             .ToList()
                             .SingleOrDefault(x => x.Contains("http"));
-                    var vnc = await channelService.JoinChannel(e.Channel.Id);
+                    var vnc = await channelService.JoinChannel(247175209767927810);
                     await audioService.PlayAudio(vnc, url);
                     await channelService.LeaveChannel(e.Channel.Id);
                 }

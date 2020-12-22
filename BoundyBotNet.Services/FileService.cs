@@ -12,15 +12,10 @@ namespace BoundyBotNet.Services
     public class FileService
     {
 
-        public Stream GetHttpData()
-        {
+        //public Stream GetFileData()
+        //{
 
-        }
-
-        public Stream GetFileData()
-        {
-
-        }
+        //}
 
         public async Task<Stream> GetYoutubeData(string url)
         {
